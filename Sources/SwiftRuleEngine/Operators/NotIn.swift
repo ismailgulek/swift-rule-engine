@@ -7,16 +7,15 @@
 
 import Foundation
 
-
 struct NotIn: Operator {
-    static let id = OperatorID(rawValue: "not_in")
+    static let id = OperatorID(rawValue: "notIn")
     private let value: Any
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         switch value {
-        case .string(let string):
+        case let .string(string):
             self.value = string
-        case .array(let array):
+        case let .array(array):
             if let array = array as? [AnyHashable] {
                 self.value = Set(array)
             } else {
@@ -28,14 +27,13 @@ struct NotIn: Operator {
     }
 
     func match(_ objValue: Any) -> Bool {
-        if let lhs = self.value as? String, let rhs = objValue as? String {
+        if let lhs = value as? String, let rhs = objValue as? String {
             return !lhs.contains(rhs)
-        } else if let lhs = self.value as? Set<AnyHashable>, let rhs = objValue as? AnyHashable {
+        } else if let lhs = value as? Set<AnyHashable>, let rhs = objValue as? AnyHashable {
             return !lhs.contains(rhs)
-        } else if let lhs = self.value as? NSArray {
+        } else if let lhs = value as? NSArray {
             return !lhs.contains(objValue)
         }
         return true
     }
 }
-

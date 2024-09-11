@@ -18,7 +18,6 @@ enum JSONPart {
     case index(Int)
 }
 
-
 public struct JSONPath {
     private let parts: [JSONPart]
     private let pathRegex = try! NSRegularExpression(pattern: #"\$\.((\w+\[\d+\](\.|$)|(\w+\.)))*(\w+\[\d+\]|\w+)$"#)
@@ -30,7 +29,8 @@ public struct JSONPath {
         }
 
         guard pathRegex.firstMatch(in: path, options: [],
-                                   range: NSRange(location: 0, length: path.count)) != nil else {
+                                   range: NSRange(location: 0, length: path.count)) != nil
+        else {
             throw JSONPathError.invalidPath
         }
 
@@ -74,18 +74,18 @@ public struct JSONPath {
     func getValue(for obj: Any) throws -> Any {
         var currentObj: Any = obj
 
-        for p in self.parts {
+        for p in parts {
             switch p {
-            case .key(let key):
+            case let .key(key):
                 guard let subscriptableObj = currentObj as? any StringSubscriptable else {
                     throw JSONPathError.expectingDictionary
                 }
-                currentObj = try self.accessObj(key, subscriptableObj)
-            case .index(let index):
+                currentObj = try accessObj(key, subscriptableObj)
+            case let .index(index):
                 guard let array = currentObj as? [Any] else {
                     throw JSONPathError.expectingDictionary
                 }
-                currentObj = try self.accessArray(index, array)
+                currentObj = try accessArray(index, array)
             }
         }
         return currentObj

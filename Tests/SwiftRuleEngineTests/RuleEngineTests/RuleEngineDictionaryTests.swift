@@ -1,16 +1,14 @@
 //
-//  SwiftRuleEngineTests.swift
+//  RuleEngineDictionaryTests.swift
 //  SwiftRuleEngineTests
 //
 //  Created by Santiago Alvarez on 22/12/2022.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class RuleEngineTests: XCTestCase {
-
     func testAllDoubleEqualCondition() throws {
         let rule: [String: Any] = [
             "name": "test-rule",
@@ -20,22 +18,22 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": "Lionel",
-                        "operator": "equal"
+                        "operator": "equal",
                     ],
                     [
                         "path": "$.player.last_name",
                         "value": "Messi",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Lionel",
-                "last_name": "Messi"
-            ]
+                "last_name": "Messi",
+            ],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -54,17 +52,17 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": ["Marcos", "Tomas", "Lionel", "Tony"],
-                        "operator": "in"
-                    ] as [String : Any]
-                ]
-            ]
+                        "operator": "in",
+                    ] as [String: Any],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Lionel",
-                "last_name": "Messi"
-            ]
+                "last_name": "Messi",
+            ],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -73,7 +71,6 @@ class RuleEngineTests: XCTestCase {
 
         XCTAssertTrue(result.conditions.match)
     }
-
 
     func testNestedAnyCondition() throws {
         let rule: [String: Any] = [
@@ -84,31 +81,31 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": ["Marcos", "Tomas", "Lionel", "Tony"],
-                        "operator": "in"
-                    ] as [String : Any],
+                        "operator": "in",
+                    ] as [String: Any],
                     [
                         "any": [
                             [
                                 "path": "$.player.last_name",
                                 "value": "Ronaldo",
-                                "operator": "equal"
+                                "operator": "equal",
                             ],
                             [
                                 "path": "$.player.last_name",
                                 "value": "Messi",
-                                "operator": "equal"
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                "operator": "equal",
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Lionel",
-                "last_name": "Messi"
-            ]
+                "last_name": "Messi",
+            ],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -127,32 +124,32 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": ["Marcos", "Tomas", "Lionel", "Tony"],
-                        "operator": "in"
-                    ] as [String : Any],
+                        "operator": "in",
+                    ] as [String: Any],
                     [
                         "all": [
                             [
                                 "path": "$.player.age",
                                 "value": 34,
-                                "operator": "equal"
-                            ] as [String : Any],
+                                "operator": "equal",
+                            ] as [String: Any],
                             [
                                 "path": "$.player.last_name",
                                 "value": "Messi",
-                                "operator": "equal"
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                "operator": "equal",
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Lionel",
                 "last_name": "Messi",
-                "age": 34
-            ] as [String : Any]
+                "age": 34,
+            ] as [String: Any],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -161,7 +158,6 @@ class RuleEngineTests: XCTestCase {
 
         XCTAssertTrue(result.conditions.match)
     }
-
 
     func testNestedAllConditionWithAny() throws {
         let rule: [String: Any] = [
@@ -172,41 +168,41 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": ["Marcos", "Tomas", "Lionel", "Tony"],
-                        "operator": "in"
-                    ] as [String : Any],
+                        "operator": "in",
+                    ] as [String: Any],
                     [
                         "all": [
                             [
                                 "path": "$.player.age",
                                 "value": 34,
-                                "operator": "greater_than_inclusive"
-                            ] as [String : Any],
+                                "operator": "greater_than_inclusive",
+                            ] as [String: Any],
                             [
                                 "any": [
                                     [
                                         "path": "$.player.last_name",
                                         "value": "Ronaldo",
-                                        "operator": "equal"
+                                        "operator": "equal",
                                     ],
                                     [
                                         "path": "$.player.last_name",
                                         "value": "Messi",
-                                        "operator": "equal"
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                        "operator": "equal",
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Lionel",
                 "last_name": "Messi",
-                "age": 34
-            ] as [String : Any]
+                "age": 34,
+            ] as [String: Any],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -267,8 +263,8 @@ class RuleEngineTests: XCTestCase {
             "player": [
                 "first_name": "Lionel",
                 "last_name": "Messi",
-                "age": 34
-            ] as [String : Any]
+                "age": 34,
+            ] as [String: Any],
         ]
 
         let engine = try! RuleEngine(rules: [rule])
@@ -277,7 +273,6 @@ class RuleEngineTests: XCTestCase {
 
         XCTAssertTrue(result!.conditions.match)
     }
-
 
     func testNullMatch() throws {
         let rule = """
@@ -301,8 +296,8 @@ class RuleEngineTests: XCTestCase {
                 "first_name": "Lionel",
                 "clubs": ["boca", "madrid", "inter", "bayern"],
                 "last_name": nil,
-                "age": 34
-            ] as [String : Any?]
+                "age": 34,
+            ] as [String: Any?],
         ]
 
         let engine = try! RuleEngine(rules: [rule])
@@ -322,23 +317,23 @@ class RuleEngineTests: XCTestCase {
                         [
                             "path": "$.player.first_name",
                             "value": "Lionel",
-                            "operator": "equal"
+                            "operator": "equal",
                         ],
                         [
                             "path": "$.player.last_name",
                             "value": "Messi",
-                            "operator": "equal"
-                        ]
-                    ]
-                ]
-            ]
+                            "operator": "equal",
+                        ],
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Cristiano",
-                "last_name": "Ronaldo"
-            ]
+                "last_name": "Ronaldo",
+            ],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -357,17 +352,17 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.clubs[1]",
                         "value": "Madrid",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Cristiano",
-                "clubs": ["Juventus", "Madrid"]
-            ] as [String : Any]
+                "clubs": ["Juventus", "Madrid"],
+            ] as [String: Any],
         ]
 
         let engine = try RuleEngine(rules: [rule])
@@ -387,10 +382,10 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": "Lionel",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let rule2: [String: Any] = [
@@ -402,17 +397,17 @@ class RuleEngineTests: XCTestCase {
                     [
                         "path": "$.player.first_name",
                         "value": "Cristiano",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let obj = [
             "player": [
                 "first_name": "Cristiano",
-                "last_name": "Ronaldo"
-            ] as [String : Any]
+                "last_name": "Ronaldo",
+            ] as [String: Any],
         ]
 
         let engine = try RuleEngine(rules: [rule1, rule2])

@@ -1,15 +1,14 @@
 //
 //  NotStartsWithOperatorTests.swift
-//  
+//
 //
 //  Created by Santiago Alvarez on 21/12/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 final class NotStartsWithOperatorTests: XCTestCase {
-
     func testMatch() {
         let op = try! NotStartsWith(value: .string("hello"), params: nil)
 

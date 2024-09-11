@@ -7,26 +7,25 @@
 
 import Foundation
 
-
 struct Contains: Operator {
     static let id = OperatorID(rawValue: "contains")
     private let value: AnyCodable
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         self.value = value
     }
 
     func match(_ objValue: Any) -> Bool {
         if let rhs = objValue as? NSArray {
-            return rhs.contains(self.value.value())
+            return rhs.contains(value.value())
         }
 
         if let rhs = objValue as? String,
-           let lhs = self.value.value() as? String {
+           let lhs = value.value() as? String
+        {
             return rhs.contains(lhs)
         }
 
         return false
     }
 }
-

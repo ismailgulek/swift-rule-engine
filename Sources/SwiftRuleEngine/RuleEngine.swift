@@ -7,34 +7,32 @@
 
 import Foundation
 
-
 enum RuleEngineError: Error {
     case operatorNotFound
     case duplicateOperator
     case invalidRule(String)
 }
 
-final public class RuleEngine {
+public final class RuleEngine {
     private var rules: [Rule] = []
     private let ruleDecoder: RuleDecoder
 
-
     public init(rules: [String], customOperators: [Operator.Type] = []) throws {
-        self.ruleDecoder = try RuleDecoder(customOperators)
-        self.rules = rules.compactMap{ dictRule in
+        ruleDecoder = try RuleDecoder(customOperators)
+        self.rules = rules.compactMap { dictRule in
             try? decodeRule(rule: dictRule)
         }
     }
 
     public init(rules: [[String: Any]], customOperators: [Operator.Type] = []) throws {
-        self.ruleDecoder = try RuleDecoder(customOperators)
-        self.rules = rules.compactMap{ dictRule in
+        ruleDecoder = try RuleDecoder(customOperators)
+        self.rules = rules.compactMap { dictRule in
             try? decodeRule(rule: dictRule)
         }
     }
 
     public init(rules: [Rule], customOperators: [Operator.Type] = []) throws {
-        self.ruleDecoder = try RuleDecoder(customOperators)
+        ruleDecoder = try RuleDecoder(customOperators)
         self.rules = rules
     }
 
@@ -64,7 +62,7 @@ final public class RuleEngine {
         let sortedRules = rules.sorted { $0.priority > $1.priority }
         for rule in sortedRules {
             var rule = rule
-            guard ((try? rule.conditions.evaluate(obj)) != nil) else {
+            guard (try? rule.conditions.evaluate(obj)) != nil else {
                 continue
             }
             if rule.conditions.match {

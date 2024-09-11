@@ -5,11 +5,10 @@
 //  Created by Santiago Alvarez on 28/12/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 final class JSONPathTests: XCTestCase {
-
     func testValidJSONPath() throws {
         XCTAssertNoThrow(try JSONPath("$"))
         XCTAssertNoThrow(try JSONPath("$.key"))
@@ -46,5 +45,4 @@ final class JSONPathTests: XCTestCase {
         XCTAssertThrowsError(try JSONPath("$.key.*"))
         XCTAssertThrowsError(try JSONPath("$.key[-1]"))
     }
-
 }

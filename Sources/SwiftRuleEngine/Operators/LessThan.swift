@@ -7,25 +7,24 @@
 
 import Foundation
 
-
 struct LessThan: Operator {
-    static let id = OperatorID(rawValue: "less_than")
+    static let id = OperatorID(rawValue: "lessThan")
     private let value: AnyCodable
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         self.value = value
     }
 
     func match(_ objValue: Any) -> Bool {
-        switch self.value {
-        case .number(let lhs):
+        switch value {
+        case let .number(lhs):
             guard let rhs = objValue as? NSNumber else {
                 return false
             }
 
             return lhs.doubleValue > rhs.doubleValue
 
-        case .string(let lhs):
+        case let .string(lhs):
             guard let rhs = objValue as? String else {
                 return false
             }
@@ -37,4 +36,3 @@ struct LessThan: Operator {
         }
     }
 }
-

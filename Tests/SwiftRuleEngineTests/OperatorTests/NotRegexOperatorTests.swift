@@ -5,9 +5,8 @@
 //  Created by Santiago Alvarez on 11/04/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 final class NotRegexOperatorTests: XCTestCase {
     func testMatchIPAddress() {

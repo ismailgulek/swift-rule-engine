@@ -5,12 +5,10 @@
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class GreaterThanOperatorTests: XCTestCase {
-
     func testIntsMatch() {
         let op = try! GreaterThan(value: .number(99), params: nil)
         let rhs: Any = 100
@@ -59,5 +57,4 @@ class GreaterThanOperatorTests: XCTestCase {
 
         XCTAssertFalse(op.match(rhs))
     }
-
 }

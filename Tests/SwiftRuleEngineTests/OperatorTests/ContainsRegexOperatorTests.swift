@@ -5,12 +5,10 @@
 //  Created by Santiago Alvarez on 04/04/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 final class ContainsRegexOperatorTests: XCTestCase {
-
     func testStringArrayMatch() {
         let op = try! ContainsRegex(value: .string("^/Users/.*/Desktop/hello.txt$"), params: nil)
         let rhs: Any = ["/Users/messi/Desktop/hello.txt"]
@@ -38,5 +36,4 @@ final class ContainsRegexOperatorTests: XCTestCase {
 
         XCTAssertFalse(op.match(rhs))
     }
-
 }

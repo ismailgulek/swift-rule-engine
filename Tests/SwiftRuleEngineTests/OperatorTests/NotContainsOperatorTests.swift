@@ -5,8 +5,8 @@
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 class NotContainsOperatorTests: XCTestCase {
     func testStringArrayMatch() {
@@ -101,10 +101,9 @@ class NotContainsOperatorTests: XCTestCase {
     }
 
     func testInvalidType() {
-        let op = try! NotContains(value: .number(123123), params: nil)
+        let op = try! NotContains(value: .number(123_123), params: nil)
         let rhs: Any = 1233
 
         XCTAssertTrue(op.match(rhs))
     }
-
 }

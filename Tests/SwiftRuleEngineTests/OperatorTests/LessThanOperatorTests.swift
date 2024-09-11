@@ -1,16 +1,14 @@
 //
-//  OperatorTests.swift
+//  LessThanOperatorTests.swift
 //  SwiftRuleEngineTests
 //
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class LessThanOperatorTests: XCTestCase {
-
     func testIntsMatch() {
         let op = try! LessThan(value: .number(100), params: nil)
         let rhs: Any = 99
@@ -59,5 +57,4 @@ class LessThanOperatorTests: XCTestCase {
 
         XCTAssertFalse(op.match(rhs))
     }
-
 }

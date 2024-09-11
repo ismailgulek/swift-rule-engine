@@ -7,18 +7,18 @@
 
 import Foundation
 
-
 struct NotEqual: Operator {
-    static let id = OperatorID(rawValue: "not_equal")
+    static let id = OperatorID(rawValue: "notEqual")
     private let value: AnyCodable
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         self.value = value
     }
 
-    private func castAndCompare<T: Equatable>(_ lhs: Any, _ rhs: Any, type: T.Type) -> Bool {
+    private func castAndCompare<T: Equatable>(_ lhs: Any, _ rhs: Any, type _: T.Type) -> Bool {
         guard let rhs = rhs as? T,
-              let lhs = lhs as? T else {
+              let lhs = lhs as? T
+        else {
             return true
         }
 
@@ -26,25 +26,24 @@ struct NotEqual: Operator {
     }
 
     func match(_ objValue: Any) -> Bool {
-
-        switch self.value {
-        case .string(let lhs):
+        switch value {
+        case let .string(lhs):
             return castAndCompare(lhs, objValue, type: String.self)
 
-        case .number(let lhs):
+        case let .number(lhs):
             return castAndCompare(lhs, objValue, type: NSNumber.self)
 
-        case .bool(let lhs):
+        case let .bool(lhs):
             return castAndCompare(lhs, objValue, type: Bool.self)
 
-        case .dictionary(let lhs):
+        case let .dictionary(lhs):
             return castAndCompare(lhs, objValue, type: NSDictionary.self)
 
-        case .array(let lhs):
+        case let .array(lhs):
             return castAndCompare(lhs, objValue, type: NSArray.self)
 
         case .null:
-            if case Optional<Any>.none = objValue  {
+            if case Optional<Any>.none = objValue {
                 return false
             } else if objValue is NSNull {
                 return false

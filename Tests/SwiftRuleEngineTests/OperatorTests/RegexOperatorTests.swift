@@ -5,12 +5,10 @@
 //  Created by Santiago Alvarez on 02/03/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class RegexOperatorTests: XCTestCase {
-
     func testMatchIPAddress() {
         let op = try! Regex(value: .string("^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(.(?!$)|$)){4}$"), params: nil)
         let rhs: Any = "192.168.0.1"

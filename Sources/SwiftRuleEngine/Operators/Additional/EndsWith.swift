@@ -7,18 +7,16 @@
 
 import Foundation
 
-
 struct EndsWith: Operator {
     static let id = OperatorID(rawValue: "endswith")
     private let value: String
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         switch value {
-        case .string(let str):
+        case let .string(str):
             self.value = str
         default:
             throw OperatorError.invalidValueType
-
         }
     }
 
@@ -35,13 +33,12 @@ struct NotEndsWith: Operator {
     static let id = OperatorID(rawValue: "not_endswith")
     private let value: String
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         switch value {
-        case .string(let str):
+        case let .string(str):
             self.value = str
         default:
             throw OperatorError.invalidValueType
-
         }
     }
 

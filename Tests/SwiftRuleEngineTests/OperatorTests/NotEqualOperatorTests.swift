@@ -5,12 +5,10 @@
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class NotEqualOperatorTests: XCTestCase {
-
     func testStringsMatch() {
         let op = try! NotEqual(value: .string("test"), params: nil)
         let rhs: Any = "not-test"
@@ -39,7 +37,7 @@ class NotEqualOperatorTests: XCTestCase {
         XCTAssertTrue(op.match(rhs))
     }
 
-     func testBoolsNotMatch() {
+    func testBoolsNotMatch() {
         let op = try! NotEqual(value: .bool(true), params: nil)
         let rhs: Any = true
 
@@ -75,15 +73,15 @@ class NotEqualOperatorTests: XCTestCase {
     }
 
     func testDictionariesMatch() {
-        let op = try! NotEqual(value: .dictionary(["foo": "test", "bar": 123] as [String : Any]), params: nil)
-        let rhs: Any = ["foo": "test", "bar": 321] as [String : Any]
+        let op = try! NotEqual(value: .dictionary(["foo": "test", "bar": 123] as [String: Any]), params: nil)
+        let rhs: Any = ["foo": "test", "bar": 321] as [String: Any]
 
         XCTAssertTrue(op.match(rhs))
     }
 
     func testDictionariesNotMatch() {
-        let op = try! NotEqual(value: .dictionary(["foo": "test", "bar": 123] as [String : Any]), params: nil)
-        let rhs: Any = ["foo": "test", "bar": 123] as [String : Any]
+        let op = try! NotEqual(value: .dictionary(["foo": "test", "bar": 123] as [String: Any]), params: nil)
+        let rhs: Any = ["foo": "test", "bar": 123] as [String: Any]
 
         XCTAssertFalse(op.match(rhs))
     }
@@ -102,9 +100,9 @@ class NotEqualOperatorTests: XCTestCase {
         XCTAssertFalse(op.match(rhs))
     }
 
-     func testMultiTypeArraysMatch() {
-         let op = try! NotEqual(value: .array(["foo", 123] as [Any]), params: nil)
-         let rhs: Any = ["foo", 321] as [Any]
+    func testMultiTypeArraysMatch() {
+        let op = try! NotEqual(value: .array(["foo", 123] as [Any]), params: nil)
+        let rhs: Any = ["foo", 321] as [Any]
 
         XCTAssertTrue(op.match(rhs))
     }
@@ -129,5 +127,4 @@ class NotEqualOperatorTests: XCTestCase {
 
         XCTAssertFalse(op.match(rhs))
     }
-
 }

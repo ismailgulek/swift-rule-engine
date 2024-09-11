@@ -7,18 +7,15 @@
 
 import Foundation
 
-
-
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class RuleEngineSubscriptableTests: XCTestCase {
     struct S: StringSubscriptable {
         let name: String
 
-        static private let keys: [String: PartialKeyPath<Self>] = [
-            "name": \.name
+        private static let keys: [String: PartialKeyPath<Self>] = [
+            "name": \.name,
         ]
 
         subscript(key: String) -> Any? {
@@ -37,10 +34,10 @@ class RuleEngineSubscriptableTests: XCTestCase {
                     [
                         "path": "$.name",
                         "value": "Lionel",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let obj = S(name: "Lionel")
@@ -60,10 +57,10 @@ class RuleEngineSubscriptableTests: XCTestCase {
                     [
                         "path": "$.name",
                         "value": "Lionel",
-                        "operator": "equal"
-                    ]
-                ]
-            ]
+                        "operator": "equal",
+                    ],
+                ],
+            ],
         ]
 
         let obj = S(name: "Cristiano")

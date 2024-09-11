@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 let operatorsUserInfoKey = CodingUserInfoKey(rawValue: "operators")!
 
 public class RuleDecoder {
@@ -19,10 +18,10 @@ public class RuleDecoder {
                                                      NotStartsWith.self, EndsWith.self, NotEndsWith.self]
 
     public init(_ operators: [Operator.Type] = []) throws {
-        self.decoder.userInfo[operatorsUserInfoKey] = try generateOperatorsDict(operators)
+        decoder.userInfo[operatorsUserInfoKey] = try generateOperatorsDict(operators)
     }
 
-    private func generateOperatorsDict(_ customOperators: [Operator.Type]) throws -> [OperatorID:Operator.Type]{
+    private func generateOperatorsDict(_ customOperators: [Operator.Type]) throws -> [OperatorID: Operator.Type] {
         let operators = defaultOperators + customOperators
 
         return try operators.reduce(into: [:]) { result, op in
@@ -33,7 +32,7 @@ public class RuleDecoder {
         }
     }
 
-    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable {
-        return try self.decoder.decode(type, from: data)
+    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
+        return try decoder.decode(type, from: data)
     }
 }

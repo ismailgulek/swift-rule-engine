@@ -11,12 +11,12 @@ struct NotContainsRegex: Operator {
     static let id = OperatorID(rawValue: "not_contains_regex")
     private let regex: NSRegularExpression
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
-        if case .string(let pattern) = value {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
+        if case let .string(pattern) = value {
             guard let reg = try? NSRegularExpression(pattern: pattern) else {
                 throw OperatorError.invalidValue
             }
-            self.regex = reg
+            regex = reg
             return
         }
         throw OperatorError.invalidValueType
@@ -29,7 +29,7 @@ struct NotContainsRegex: Operator {
 
         return !rhs.contains { string in
             let range = NSRange(location: 0, length: string.utf16.count)
-            return (regex.firstMatch(in: string, range: range) != nil)
+            return regex.firstMatch(in: string, range: range) != nil
         }
     }
 }

@@ -5,13 +5,11 @@
 //  Created by Santiago Alvarez on 19/12/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 final class RuleEnginePerformanceTests: XCTestCase {
-
     func testMultiConditionRulePerformance() throws {
-
         let rule = """
             {
                 "name": "rule",
@@ -64,17 +62,16 @@ final class RuleEnginePerformanceTests: XCTestCase {
                 "goals": 205,
                 "last_name": "Palermo",
                 "country": "Argentina",
-                "team": "Boca Juniors"
-            ] as [String: Any]
+                "team": "Boca Juniors",
+            ] as [String: Any],
         ]
 
         let engine = try! RuleEngine(rules: [rule])
 
-        self.measure {
-            for _ in 0..<140_000 {
+        measure {
+            for _ in 0 ..< 140_000 {
                 _ = engine.evaluate(obj)
             }
         }
     }
-
 }

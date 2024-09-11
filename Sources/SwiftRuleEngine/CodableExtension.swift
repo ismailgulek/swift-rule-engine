@@ -9,7 +9,6 @@
 
 import Foundation
 
-
 struct JSONCodingKeys: CodingKey {
     var stringValue: String
 
@@ -25,19 +24,18 @@ struct JSONCodingKeys: CodingKey {
     }
 }
 
-
-extension KeyedDecodingContainer {
-    public func decode(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any] {
+public extension KeyedDecodingContainer {
+    func decode(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any] {
         let container = try nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
         return try container.decode(type)
     }
 
-    public func decode(_ type: [Any].Type, forKey key: K) throws -> [Any] {
+    func decode(_ type: [Any].Type, forKey key: K) throws -> [Any] {
         var container = try nestedUnkeyedContainer(forKey: key)
         return try container.decode(type)
     }
 
-    public func decode(_ type: [String: Any].Type) throws -> [String: Any] {
+    func decode(_: [String: Any].Type) throws -> [String: Any] {
         var dictionary = [String: Any]()
 
         for key in allKeys {
@@ -64,7 +62,7 @@ extension KeyedDecodingContainer {
 }
 
 extension UnkeyedDecodingContainer {
-    mutating func decode(_ type: [Any].Type) throws -> [Any] {
+    mutating func decode(_: [Any].Type) throws -> [Any] {
         var array: [Any] = []
 
         while isAtEnd == false {
@@ -81,7 +79,7 @@ extension UnkeyedDecodingContainer {
             } else if let nestedArray = try? decodeNestedArray([Any].self) {
                 array.append(nestedArray)
             } else if let isValueNil = try? decodeNil(), isValueNil == true {
-                array.append(Optional<Any>.none as Any)
+                array.append(Any?.none as Any)
             } else {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Unable to decode value"))
             }
@@ -99,5 +97,3 @@ extension UnkeyedDecodingContainer {
         return try container.decode(type)
     }
 }
-
-

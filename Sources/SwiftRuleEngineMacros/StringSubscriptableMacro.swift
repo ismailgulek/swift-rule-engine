@@ -5,12 +5,11 @@
 //  Created by Santiago Alvarez on 04/07/2024.
 //
 
+import Foundation
 import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
-import Foundation
-
 
 enum StringSubscriptableMacroError: Error, CustomStringConvertible {
     case invalidAppliedType
@@ -28,9 +27,9 @@ public struct StringSubscriptableMacro: ExtensionMacro {
     public static func expansion(of node: SwiftSyntax.AttributeSyntax,
                                  attachedTo declaration: some SwiftSyntax.DeclGroupSyntax,
                                  providingExtensionsOf type: some SwiftSyntax.TypeSyntaxProtocol,
-                                 conformingTo protocols: [SwiftSyntax.TypeSyntax],
-                                 in context: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.ExtensionDeclSyntax] {
-
+                                 conformingTo _: [SwiftSyntax.TypeSyntax],
+                                 in _: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.ExtensionDeclSyntax]
+    {
         var generateKeys = true
         if let args = node.arguments?.as(LabeledExprListSyntax.self) {
             for arg in args {
@@ -42,14 +41,15 @@ public struct StringSubscriptableMacro: ExtensionMacro {
             }
         }
 
-        guard (declaration.is(StructDeclSyntax.self) || declaration.is(ClassDeclSyntax.self)),
-              let typeName = type.as(IdentifierTypeSyntax.self) else {
+        guard declaration.is(StructDeclSyntax.self) || declaration.is(ClassDeclSyntax.self),
+              let typeName = type.as(IdentifierTypeSyntax.self)
+        else {
             throw StringSubscriptableMacroError.invalidAppliedType
         }
 
         let keys = generateKeys ? Self.generateKeys(for: typeName.name.text, with: declaration.memberBlock.members) : ""
 
-        return [try ExtensionDeclSyntax("""
+        return try [ExtensionDeclSyntax("""
         extension \(raw: typeName.name.text): StringSubscriptable {
             \(keys)
             subscript(key: String) -> Any? {
@@ -69,7 +69,8 @@ public struct StringSubscriptableMacro: ExtensionMacro {
             guard let decl = m.decl.as(VariableDeclSyntax.self),
                   !decl.modifiers.contains(where: { omittedModifiers.contains($0.name.text) }),
                   let binding = decl.bindings.first,
-                  let name = binding.pattern.as(IdentifierPatternSyntax.self) else {
+                  let name = binding.pattern.as(IdentifierPatternSyntax.self)
+            else {
                 continue
             }
             keys.append("\"\(camelCaseToSnakeCase(name.identifier.text))\": \\.\(name)")

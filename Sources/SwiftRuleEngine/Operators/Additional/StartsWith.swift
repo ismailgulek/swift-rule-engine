@@ -7,18 +7,16 @@
 
 import Foundation
 
-
 struct StartsWith: Operator {
     static let id = OperatorID(rawValue: "startswith")
     private let value: String
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         switch value {
-        case .string(let str):
+        case let .string(str):
             self.value = str
         default:
             throw OperatorError.invalidValueType
-
         }
     }
 
@@ -35,13 +33,12 @@ struct NotStartsWith: Operator {
     static let id = OperatorID(rawValue: "not_startswith")
     private let value: String
 
-    init(value: AnyCodable, params: [String : Any]?) throws {
+    init(value: AnyCodable, params _: [String: Any]?) throws {
         switch value {
-        case .string(let str):
+        case let .string(str):
             self.value = str
         default:
             throw OperatorError.invalidValueType
-
         }
     }
 

@@ -5,12 +5,10 @@
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
-
+import XCTest
 
 class InOperatorTests: XCTestCase {
-
     func testStringArrayMatch() {
         let op = try! In(value: .array(["test"]), params: nil)
         let rhs: Any = "test"
@@ -96,6 +94,6 @@ class InOperatorTests: XCTestCase {
     }
 
     func testInvalidType() {
-        XCTAssertThrowsError(try In(value: .number(123123), params: nil))
+        XCTAssertThrowsError(try In(value: .number(123_123), params: nil))
     }
 }

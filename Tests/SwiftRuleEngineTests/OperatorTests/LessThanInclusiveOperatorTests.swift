@@ -5,8 +5,8 @@
 //  Created by Santiago Alvarez on 22/02/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 class LessThanInclusiveOperatorTests: XCTestCase {
     func testIntsMatch() {
@@ -78,5 +78,4 @@ class LessThanInclusiveOperatorTests: XCTestCase {
 
         XCTAssertFalse(op.match(rhs))
     }
-
 }

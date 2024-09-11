@@ -7,5 +7,4 @@
 
 import Foundation
 
-
 extension Dictionary: StringSubscriptable where Key == String {}

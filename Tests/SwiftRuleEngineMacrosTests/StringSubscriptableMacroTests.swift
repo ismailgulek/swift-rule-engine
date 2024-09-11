@@ -133,7 +133,6 @@ final class MhuntMacrosTests: XCTestCase {
         )
     }
 
-
     func testMacroSnakeCaseConversion() throws {
         assertMacroExpansion(
             """

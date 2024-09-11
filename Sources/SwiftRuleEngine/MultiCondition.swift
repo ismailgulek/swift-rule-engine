@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public struct MultiCondition: Condition {
     public var match: Bool = false
     public var all: [Condition]?
@@ -15,58 +14,59 @@ public struct MultiCondition: Condition {
     public var not: Condition?
 
     public mutating func evaluate(_ obj: Any) throws {
-        if self.all != nil {
-            try self.evaluateAll(obj)
-        } else if self.any != nil {
-            try self.evaluateAny(obj)
-        } else if self.not != nil {
-            try self.evaluateNot(obj)
+        if all != nil {
+            try evaluateAll(obj)
+        } else if any != nil {
+            try evaluateAny(obj)
+        } else if not != nil {
+            try evaluateNot(obj)
         }
     }
 
     private mutating func evaluateAny(_ obj: Any) throws {
-        for i in self.any!.indices {
-            try self.any![i].evaluate(obj)
-            if self.any![i].match {
-                self.match = true
+        for i in any!.indices {
+            try any![i].evaluate(obj)
+            if any![i].match {
+                match = true
                 return
             }
         }
     }
 
     private mutating func evaluateAll(_ obj: Any) throws {
-        for i in self.all!.indices {
-            try self.all![i].evaluate(obj)
-            if !self.all![i].match {
-                self.match = false
+        for i in all!.indices {
+            try all![i].evaluate(obj)
+            if !all![i].match {
+                match = false
                 return
             }
         }
-        self.match = true
+        match = true
     }
 
     private mutating func evaluateNot(_ obj: Any) throws {
-        try self.not!.evaluate(obj)
-        self.match = !self.not!.match
+        try not!.evaluate(obj)
+        match = !not!.match
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.any = try Self.decodeConditionArray(container, .any)
-        self.all = try Self.decodeConditionArray(container, .all)
-        self.not = try Self.decodeCondition(container, .not)
+        any = try Self.decodeConditionArray(container, .any)
+        all = try Self.decodeConditionArray(container, .all)
+        not = try Self.decodeCondition(container, .not)
 
         guard (any == nil && all == nil && not != nil) ||
-              (any == nil && all != nil && not == nil) ||
-              (any != nil && all == nil && not == nil) else {
+            (any == nil && all != nil && not == nil) ||
+            (any != nil && all == nil && not == nil)
+        else {
             throw DecodingError.typeMismatch(MultiCondition.self,
-                  DecodingError.Context(codingPath: decoder.codingPath,
-                                        debugDescription: "Only one of any, all or not should be present"))
+                                             DecodingError.Context(codingPath: decoder.codingPath,
+                                                                   debugDescription: "Only one of any, all or not should be present"))
         }
     }
 
-    static private func decodeConditionArray(_ container: KeyedDecodingContainer<CodingKeys>, _ key: CodingKeys) throws -> [Condition]? {
+    private static func decodeConditionArray(_ container: KeyedDecodingContainer<CodingKeys>, _ key: CodingKeys) throws -> [Condition]? {
         guard container.contains(key) else {
             return nil
         }
@@ -80,14 +80,14 @@ public struct MultiCondition: Condition {
                 conditionArray.append(condition)
             } else {
                 throw DecodingError.typeMismatch(Condition.self,
-                      DecodingError.Context(codingPath: container.codingPath,
-                                            debugDescription: "Missing conditions for multi condition"))
+                                                 DecodingError.Context(codingPath: container.codingPath,
+                                                                       debugDescription: "Missing conditions for multi condition"))
             }
         }
         return conditionArray
     }
 
-    static private func decodeCondition(_ container: KeyedDecodingContainer<CodingKeys>, _ key: CodingKeys) throws -> Condition? {
+    private static func decodeCondition(_ container: KeyedDecodingContainer<CodingKeys>, _ key: CodingKeys) throws -> Condition? {
         guard container.contains(key) else {
             return nil
         }
@@ -98,8 +98,8 @@ public struct MultiCondition: Condition {
             return condition
         } else {
             throw DecodingError.typeMismatch(Condition.self,
-                  DecodingError.Context(codingPath: container.codingPath,
-                                        debugDescription: "Missing conditions for multi condition"))
+                                             DecodingError.Context(codingPath: container.codingPath,
+                                                                   debugDescription: "Missing conditions for multi condition"))
         }
     }
 
@@ -107,5 +107,3 @@ public struct MultiCondition: Condition {
         case all, any, not
     }
 }
-
-

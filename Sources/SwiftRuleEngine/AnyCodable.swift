@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public enum AnyCodable: Decodable {
     case number(_ value: NSNumber)
     case string(_ value: String)
@@ -19,19 +18,19 @@ public enum AnyCodable: Decodable {
 
     public func value() -> Any {
         switch self {
-        case .number(let value):
+        case let .number(value):
             return value
-        case .string(let value):
+        case let .string(value):
             return value
-        case .bool(let value):
+        case let .bool(value):
             return value
-        case .array(let value):
+        case let .array(value):
             return value
-        case .dictionary(let value):
+        case let .dictionary(value):
             return value
-        case .null(let value):
+        case let .null(value):
             return value
-        case .unknown(let value):
+        case let .unknown(value):
             return value
         }
     }
@@ -75,7 +74,7 @@ public enum AnyCodable: Decodable {
             return
         }
 
-        if let container = try? decoder.singleValueContainer(){
+        if let container = try? decoder.singleValueContainer() {
             if container.decodeNil() {
                 self = .null(NSNull())
 

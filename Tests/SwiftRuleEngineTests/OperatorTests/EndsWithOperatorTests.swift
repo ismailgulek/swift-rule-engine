@@ -5,11 +5,10 @@
 //  Created by Santiago Alvarez on 21/12/2023.
 //
 
-import XCTest
 @testable import SwiftRuleEngine
+import XCTest
 
 final class EndsWithOperatorTests: XCTestCase {
-
     func testMatch() {
         let op = try! EndsWith(value: .string("world"), params: nil)
 
